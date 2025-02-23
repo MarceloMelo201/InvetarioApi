@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=inventarioDB'
+      - 'POSTGRES_PASSWORD=1234'
+      - 'POSTGRES_USER=userBN'
+    ports:
+      - '5433:5432'
