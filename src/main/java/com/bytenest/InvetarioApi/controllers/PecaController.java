@@ -1,6 +1,8 @@
 package com.bytenest.InvetarioApi.controllers;
 
+import com.bytenest.InvetarioApi.dtos.EntradaRecordDto;
 import com.bytenest.InvetarioApi.dtos.PecaRecordDto;
+import com.bytenest.InvetarioApi.dtos.PecaEntradaWrapperDto;
 import com.bytenest.InvetarioApi.models.PecaModel;
 import com.bytenest.InvetarioApi.repositories.PecaRepository;
 import com.bytenest.InvetarioApi.services.PecaService;
@@ -23,8 +25,10 @@ public class PecaController {
     PecaService pecaService;
 
     @PostMapping("/pecas")
-    public ResponseEntity<?> salvarPeca(@RequestBody @Valid PecaRecordDto pecaRecordDto) {
-        return pecaService.salvarPeca(pecaRecordDto);
+    public ResponseEntity<?> salvarPeca(@RequestBody @Valid PecaEntradaWrapperDto pecaEntradaWrapperDto) {
+        PecaRecordDto pecaRecordDto = pecaEntradaWrapperDto.getPecaRecordDto();
+        EntradaRecordDto entradaRecordDto = pecaEntradaWrapperDto.getEntradaRecordDto();
+        return pecaService.salvarPeca(pecaRecordDto, entradaRecordDto);
     }
 
     @GetMapping("/pecas")
@@ -44,8 +48,10 @@ public class PecaController {
 
     @PutMapping("/pecas/{id}")
     public ResponseEntity<Object> atualizarPeca(@PathVariable (value = "id") UUID id,
-                                                @RequestBody @Valid PecaRecordDto pecaRecordDto) {
-        return pecaService.atualizarPeca(id, pecaRecordDto);
+                                                @RequestBody @Valid PecaEntradaWrapperDto pecaEntradaWrapperDto) {
+        PecaRecordDto pecaRecordDto = pecaEntradaWrapperDto.getPecaRecordDto();
+        EntradaRecordDto entradaRecordDto = pecaEntradaWrapperDto.getEntradaRecordDto();
+        return pecaService.atualizarPeca(id, pecaRecordDto, entradaRecordDto);
     }
 
     @DeleteMapping("/pecas/{id}")

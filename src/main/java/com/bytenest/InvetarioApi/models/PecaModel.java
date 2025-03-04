@@ -1,11 +1,15 @@
 package com.bytenest.InvetarioApi.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +20,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "PECAS")
 public class PecaModel implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -25,10 +30,14 @@ public class PecaModel implements Serializable {
     private String nome;
     private BigDecimal valor;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String sku;
 
     private String descricao;
-    private Integer quantidade;
+    private Integer quantidadeTotal;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<EntradaEstoqueModel> entradas = new HashSet<>();
 
 }

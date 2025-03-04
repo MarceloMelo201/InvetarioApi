@@ -41,14 +41,14 @@ public class UsuarioService {
         return ResponseEntity.status(HttpStatus.OK).body(listUsuario);
     }
 
-    public ResponseEntity<Object> listarUsuario(UUID id){
+    public ResponseEntity<Object> listarUsuario(Long id){
         Optional<UsuarioModel> usuario0 = usuarioRepository.findById(id);
         return usuario0.<ResponseEntity<Object>> map(UsuarioModel -> ResponseEntity.status(HttpStatus.OK).body(usuario0))
                 .orElseGet(() ->ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado."));
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizarUsuario(UUID id, UsuarioRecordDto usuarioRecordDto){
+    public ResponseEntity<Object> atualizarUsuario(Long id, UsuarioRecordDto usuarioRecordDto){
         try {
             Optional<UsuarioModel> usuario0 = usuarioRepository.findById(id);
 
@@ -66,7 +66,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public ResponseEntity<Object> deletarUsuario(UUID id){
+    public ResponseEntity<Object> deletarUsuario(Long id){
         Optional<UsuarioModel> usuario0 = usuarioRepository.findById(id);
         if(usuario0.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuário não encontrado.");

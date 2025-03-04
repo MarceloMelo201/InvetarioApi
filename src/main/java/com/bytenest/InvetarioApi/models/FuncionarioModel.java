@@ -20,15 +20,18 @@ public class FuncionarioModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID idFunc;
+    private Long idFunc;
 
     private String nome;
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String cpf;
 
     private String cargo;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String telefone;
     private Boolean estaAtivo;
 

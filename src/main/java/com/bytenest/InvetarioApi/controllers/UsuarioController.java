@@ -32,19 +32,19 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuarios/{id}")
-    public ResponseEntity<Object> listarUmaUsuario(@PathVariable(value = "id") UUID id){
+    public ResponseEntity<Object> listarUmaUsuario(@PathVariable(value = "id") Long id){
         return usuarioService.listarUsuario(id);
     }
 
 
     @PutMapping("/usuarios/{id}")
-    public ResponseEntity<Object> atualizarUsuario(@PathVariable (value = "id") UUID id,
+    public ResponseEntity<Object> atualizarUsuario(@PathVariable (value = "id") Long id,
                                                 @RequestBody @Valid UsuarioRecordDto usuarioRecordDto) {
         return usuarioService.atualizarUsuario(id, usuarioRecordDto);
     }
 
     @DeleteMapping("/usuarios/{id}")
-    public ResponseEntity<Object> deletarUsuario(@PathVariable (value = "id") UUID id){
+    public ResponseEntity<Object> deletarUsuario(@PathVariable (value = "id") Long id){
         return usuarioService.deletarUsuario(id);
     }
 }

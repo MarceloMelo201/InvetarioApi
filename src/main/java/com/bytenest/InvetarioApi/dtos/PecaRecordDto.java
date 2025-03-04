@@ -20,6 +20,6 @@ public record PecaRecordDto(
         String descricao,
 
         @NotNull
-        Integer quantidade
+        Integer quantidadeTotal
 ) {
 }

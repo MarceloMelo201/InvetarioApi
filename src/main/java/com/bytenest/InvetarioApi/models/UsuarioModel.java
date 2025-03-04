@@ -6,10 +6,10 @@ import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,14 +21,18 @@ public class UsuarioModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID idUsuario;
+    private Long idUsuario;
 
-    private String login;
-
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
-    private String senha;
-    private Boolean estaAtivo;
 
+    private String senha;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "cargos_de_usuarios",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_cargo"))
+
+    private List<CargoModel> cargos;
 
 }
