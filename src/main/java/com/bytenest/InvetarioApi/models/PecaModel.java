@@ -1,5 +1,6 @@
 package com.bytenest.InvetarioApi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -33,11 +34,17 @@ public class PecaModel implements Serializable {
     @Column(unique = true)
     private String sku;
 
+    @Column(columnDefinition = "TEXT")
     private String descricao;
+
     private Integer quantidadeTotal;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<EntradaEstoqueModel> entradas = new HashSet<>();
+
+    @ManyToMany(mappedBy = "pecasUtilizadas")
+    @JsonIgnore
+    private List<OrdemServicoModel> ordensDeServico;
 
 }

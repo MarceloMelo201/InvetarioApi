@@ -1,6 +1,7 @@
 package com.bytenest.InvetarioApi.models;
 
 import com.bytenest.InvetarioApi.enums.EstadoEnum;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.EmptyStackException;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -25,8 +26,12 @@ public class ClienteModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID idCliente;
+
     private String nomeCliente;
+
+    @Column(unique = true)
     private String emailCliente;
+
     private String telefone;
     private String cidade;
     private String bairro;
@@ -35,4 +40,7 @@ public class ClienteModel implements Serializable {
     @Enumerated(EnumType.STRING)
     private EstadoEnum uf;
 
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<OrdemServicoModel> ordensDeServico;
 }

@@ -1,10 +1,13 @@
 package com.bytenest.InvetarioApi.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -20,7 +23,7 @@ public class FuncionarioModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idFunc;
+    private UUID idFunc;
 
     private String nome;
 
@@ -34,5 +37,10 @@ public class FuncionarioModel implements Serializable {
 
     private String telefone;
     private Boolean estaAtivo;
+
+    @OneToMany(mappedBy = "responsavel", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<OrdemServicoModel> ordens = new HashSet<>();
+
 
 }

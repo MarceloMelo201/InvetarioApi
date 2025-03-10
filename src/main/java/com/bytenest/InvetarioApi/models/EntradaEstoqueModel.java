@@ -32,10 +32,19 @@ public class EntradaEstoqueModel implements Serializable {
     @JoinColumn(name = "codigo_peca", referencedColumnName = "sku")
     private PecaModel produto;
 
+    @Column(nullable = false)
     private Integer quantidade;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valorUnitario;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal valorTotal;
+
+    @Column(unique = true)
     private String notaFiscal;
+
+    @Column(columnDefinition = "TEXT")
     private String observacoes;
 
 }
