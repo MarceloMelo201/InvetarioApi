@@ -1,39 +1,39 @@
 package com.bytenest.InvetarioApi.controllers;
 
-import com.bytenest.InvetarioApi.dtos.ClienteRecordDto;
 import com.bytenest.InvetarioApi.dtos.OrdemServicoRecordDto;
-import com.bytenest.InvetarioApi.repositories.ClienteRepository;
-import com.bytenest.InvetarioApi.repositories.FuncionarioRepository;
-import com.bytenest.InvetarioApi.repositories.OrdemServicoRepository;
-import com.bytenest.InvetarioApi.repositories.PecaRepository;
 import com.bytenest.InvetarioApi.services.OrdemServicoService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/ordens")
 public class OrdemServicoController {
 
-    @Autowired
-    PecaRepository pecaRepository;
+    private final OrdemServicoService ordemServicoService;
 
     @Autowired
-    FuncionarioRepository funcionarioRepository;
+    public OrdemServicoController(OrdemServicoService ordemServicoService) {
+        this.ordemServicoService = ordemServicoService;
+    }
 
-    @Autowired
-    ClienteRepository clienteRepository;
+    @PostMapping
+    public ResponseEntity<?> criarOrdem(@RequestBody OrdemServicoRecordDto ordemServicoRecordDto) {
+        return ordemServicoService.salvarOrdem(ordemServicoRecordDto);
+    }
 
-    @Autowired
-    OrdemServicoRepository ordemServicoRepository;
+    @GetMapping
+    public ResponseEntity<?> listarOrdens() {
+        return ordemServicoService.listarTodasAsOrdens();
+    }
 
-    @Autowired
-    OrdemServicoService servicoService;
+    @GetMapping("/{codigoOrdem}")
+    public ResponseEntity<?> obterOrdem(@PathVariable String codigoOrdem) {
+        return ordemServicoService.listarOrdem(codigoOrdem);
+    }
 
-    @PostMapping("/ordens")
-    public ResponseEntity<?> salvarOrdem(@RequestBody @Valid OrdemServicoRecordDto ordemServicoRecordDto) {
-        return servicoService.salvarOrdem(ordemServicoRecordDto);
+    @PutMapping("/{codigoOrdem}")
+    public ResponseEntity<?> atualizarOrdem(@PathVariable String codigoOrdem, @RequestBody OrdemServicoRecordDto ordemServicoRecordDto) {
+        return ordemServicoService.atualizarOrdem(codigoOrdem, ordemServicoRecordDto);
     }
 }

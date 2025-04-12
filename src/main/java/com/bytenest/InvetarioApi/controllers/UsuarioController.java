@@ -26,15 +26,14 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuarios")
-    public ResponseEntity<List<UsuarioModel>> listarTodasAsUsuarios(){
+    public ResponseEntity<List<UsuarioModel>> listarTodasOsUsuarios(){
         return usuarioService.listarTodasOsUsuarios();
     }
 
     @GetMapping("/usuarios/{id}")
-    public ResponseEntity<Object> listarUmaUsuario(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Object> listarUmUsuario(@PathVariable(value = "id") Long id){
         return usuarioService.listarUsuario(id);
     }
-
 
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<Object> atualizarUsuario(@PathVariable (value = "id") Long id,
