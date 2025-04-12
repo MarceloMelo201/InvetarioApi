@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 public class UsuarioController {
@@ -28,7 +27,7 @@ public class UsuarioController {
 
     @GetMapping("/usuarios")
     public ResponseEntity<List<UsuarioModel>> listarTodasAsUsuarios(){
-        return usuarioService.listarTodasAsUsuarios();
+        return usuarioService.listarTodasOsUsuarios();
     }
 
     @GetMapping("/usuarios/{id}")

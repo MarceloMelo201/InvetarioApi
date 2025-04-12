@@ -3,21 +3,20 @@ package com.bytenest.InvetarioApi.services;
 import com.bytenest.InvetarioApi.dtos.OrdemServicoRecordDto;
 import com.bytenest.InvetarioApi.dtos.PecaQuantidadeDto;
 import com.bytenest.InvetarioApi.enums.StatusOrdemServico;
-import com.bytenest.InvetarioApi.models.ClienteModel;
-import com.bytenest.InvetarioApi.models.FuncionarioModel;
-import com.bytenest.InvetarioApi.models.OrdemServicoModel;
-import com.bytenest.InvetarioApi.models.PecaModel;
+import com.bytenest.InvetarioApi.models.*;
 import com.bytenest.InvetarioApi.repositories.ClienteRepository;
 import com.bytenest.InvetarioApi.repositories.FuncionarioRepository;
 import com.bytenest.InvetarioApi.repositories.OrdemServicoRepository;
 import com.bytenest.InvetarioApi.repositories.PecaRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrdemServicoService {
@@ -94,4 +93,35 @@ public class OrdemServicoService {
 
         return ordemServico;
     }
+
+    public ResponseEntity<List<OrdemServicoModel>> listarTodasAsOrdens(){
+        List<OrdemServicoModel> ordemList = ordemServicoRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(ordemList);
+    }
+
+    public ResponseEntity<Object> listarOrdem(String codigoOrdem){
+        Optional<OrdemServicoModel> ordem0 = ordemServicoRepository.findByCodigoOrdem(codigoOrdem);
+        return ordem0.<ResponseEntity<Object>> map(OrdemServicoModel -> ResponseEntity.status(HttpStatus.OK).body(ordem0))
+                .orElseGet(() ->ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordem não encontrada!"));
+
+    }
+
+    @Transactional
+    public ResponseEntity<Object> atualizarOrdem(String codigoOrdem, OrdemServicoRecordDto ordemServicoRecordDto){
+        try {
+            Optional<OrdemServicoModel> ordem0 = ordemServicoRepository.findByCodigoOrdem(codigoOrdem);
+
+            if(!ordem0.isPresent()){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordem não encontrada.");
+            }
+            var ordemModel = ordem0.get();
+            BeanUtils.copyProperties(ordemServicoRecordDto, ordemModel);
+            return ResponseEntity.status(HttpStatus.OK).body(ordemServicoRepository.save(ordemModel));
+
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao atualizar ordem: " + e.getMessage());
+        }
+    }
+
 }

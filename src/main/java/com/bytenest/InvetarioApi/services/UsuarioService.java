@@ -35,7 +35,7 @@ public class UsuarioService {
         }
     }
 
-    public ResponseEntity<List<UsuarioModel>> listarTodasAsUsuarios(){
+    public ResponseEntity<List<UsuarioModel>> listarTodasOsUsuarios(){
         List<UsuarioModel> listUsuario = usuarioRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK).body(listUsuario);
     }

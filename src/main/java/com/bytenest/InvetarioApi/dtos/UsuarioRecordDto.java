@@ -1,6 +1,5 @@
 package com.bytenest.InvetarioApi.dtos;
 
-import com.bytenest.InvetarioApi.enums.CargoEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
