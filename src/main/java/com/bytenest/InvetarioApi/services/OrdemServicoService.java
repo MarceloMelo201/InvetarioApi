@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class OrdemServicoService {
@@ -114,5 +115,17 @@ public class OrdemServicoService {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Erro ao atualizar ordem: " + e.getMessage());
         }
+    }
+
+    @Transactional
+    public ResponseEntity<Object> deletarOrdemServico(String codigoOrdem) {
+        Optional<OrdemServicoModel> ordemServico = ordemServicoRepository.findByCodigoOrdem(codigoOrdem);
+
+        if (ordemServico.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ordem de serviço não encontrada.");
+        }
+
+        ordemServicoRepository.delete(ordemServico.get());
+        return ResponseEntity.status(HttpStatus.OK).body("Ordem de serviço deletada com sucesso!");
     }
 }

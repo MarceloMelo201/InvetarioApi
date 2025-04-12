@@ -36,4 +36,9 @@ public class OrdemServicoController {
     public ResponseEntity<?> atualizarOrdem(@PathVariable String codigoOrdem, @RequestBody OrdemServicoRecordDto ordemServicoRecordDto) {
         return ordemServicoService.atualizarOrdem(codigoOrdem, ordemServicoRecordDto);
     }
+
+    @DeleteMapping("/{codigoOrdem}")
+    public ResponseEntity<Object> deletarOrdemServico(@PathVariable String codigoOrdem) {
+        return ordemServicoService.deletarOrdemServico(codigoOrdem);
+    }
 }
