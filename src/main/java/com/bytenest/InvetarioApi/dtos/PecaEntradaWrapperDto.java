@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class PecaEntradaWrapperDto {
 
-    private PecaRecordDto pecaRecordDto;
-    private EntradaRecordDto entradaRecordDto;
+    private PecaDto pecaDto;
+    private EntradaDto entradaDto;
 }

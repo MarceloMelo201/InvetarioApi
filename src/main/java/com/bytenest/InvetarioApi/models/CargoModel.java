@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.models;
 
-import com.bytenest.InvetarioApi.enums.CargoEnum;
+import com.bytenest.InvetarioApi.enums.Cargos;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +22,6 @@ public class CargoModel implements Serializable {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private CargoEnum cargo;
+    private Cargos cargo;
 
 }

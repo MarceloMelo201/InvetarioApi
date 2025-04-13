@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.controllers;
 
-import com.bytenest.InvetarioApi.dtos.ClienteRecordDto;
+import com.bytenest.InvetarioApi.dtos.ClienteDto;
 import com.bytenest.InvetarioApi.models.ClienteModel;
 import com.bytenest.InvetarioApi.repositories.ClienteRepository;
 import com.bytenest.InvetarioApi.services.ClienteService;
@@ -22,8 +22,8 @@ public class ClienteController {
     ClienteService clienteService;
 
     @PostMapping("/clientes")
-    public ResponseEntity<?> salvarCliente(@RequestBody @Valid ClienteRecordDto clienteRecordDto) {
-        return clienteService.salvarCliente(clienteRecordDto);
+    public ResponseEntity<?> salvarCliente(@RequestBody @Valid ClienteDto clienteDto) {
+        return clienteService.salvarCliente(clienteDto);
     }
 
     @GetMapping("/clientes")
@@ -38,8 +38,8 @@ public class ClienteController {
 
     @PutMapping("/clientes/{id}")
     public ResponseEntity<Object> atualizarCliente(@PathVariable (value = "id") UUID id,
-                                                       @RequestBody @Valid ClienteRecordDto clienteRecordDto) {
-        return clienteService.atualizarCliente(id, clienteRecordDto);
+                                                       @RequestBody @Valid ClienteDto clienteDto) {
+        return clienteService.atualizarCliente(id, clienteDto);
     }
 
     @DeleteMapping("/clientes/{id}")

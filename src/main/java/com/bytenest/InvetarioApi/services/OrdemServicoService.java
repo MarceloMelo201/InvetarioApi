@@ -1,8 +1,8 @@
 package com.bytenest.InvetarioApi.services;
 
-import com.bytenest.InvetarioApi.dtos.OrdemServicoRecordDto;
+import com.bytenest.InvetarioApi.dtos.OrdemServicoDto;
 import com.bytenest.InvetarioApi.dtos.PecaQuantidadeDto;
-import com.bytenest.InvetarioApi.enums.StatusOrdemServico;
+import com.bytenest.InvetarioApi.enums.StatusOrdem;
 import com.bytenest.InvetarioApi.models.*;
 import com.bytenest.InvetarioApi.repositories.ClienteRepository;
 import com.bytenest.InvetarioApi.repositories.FuncionarioRepository;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class OrdemServicoService {
@@ -35,17 +34,17 @@ public class OrdemServicoService {
     }
 
     @Transactional
-    public ResponseEntity<?> salvarOrdem(OrdemServicoRecordDto ordemServicoRecordDto) {
+    public ResponseEntity<?> salvarOrdem(OrdemServicoDto ordemServicoDto) {
         try {
-            ClienteModel cliente0 = clienteRepository.findById(ordemServicoRecordDto.clienteId())
+            ClienteModel cliente0 = clienteRepository.findById(ordemServicoDto.clienteId())
                     .orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
 
-            FuncionarioModel funcionario0 = funcionarioRepository.findById(ordemServicoRecordDto.funcionarioId())
+            FuncionarioModel funcionario0 = funcionarioRepository.findById(ordemServicoDto.funcionarioId())
                     .orElseThrow(() -> new RuntimeException("Funcionário não encontrado!"));
 
             List<PecaModel> pecas = new ArrayList<>();
 
-            for (PecaQuantidadeDto pecaDto : ordemServicoRecordDto.pecas()) {
+            for (PecaQuantidadeDto pecaDto : ordemServicoDto.pecas()) {
                 PecaModel peca = pecaRepository.findById(pecaDto.pecaId())
                         .orElseThrow(() -> new RuntimeException("Peça não encontrada!"));
 
@@ -61,7 +60,7 @@ public class OrdemServicoService {
                 pecaRepository.save(peca);
             }
 
-            OrdemServicoModel ordemServico = getOrdemServico(ordemServicoRecordDto, cliente0, funcionario0, pecas);
+            OrdemServicoModel ordemServico = getOrdemServico(ordemServicoDto, cliente0, funcionario0, pecas);
             ordemServico.setDataConclusao();
 
             return ResponseEntity.status(HttpStatus.CREATED).body(ordemServicoRepository.save(ordemServico));
@@ -73,19 +72,19 @@ public class OrdemServicoService {
         }
     }
 
-    private OrdemServicoModel getOrdemServico(OrdemServicoRecordDto ordemServicoRecordDto, ClienteModel cliente0, FuncionarioModel funcionario0, List<PecaModel> pecas) {
+    private OrdemServicoModel getOrdemServico(OrdemServicoDto ordemServicoDto, ClienteModel cliente0, FuncionarioModel funcionario0, List<PecaModel> pecas) {
         return OrdemServicoModel.builder()
-                .codigoOrdem(ordemServicoRecordDto.codigoOrdem())
+                .codigoOrdem(ordemServicoDto.codigoOrdem())
                 .cliente(cliente0)
-                .observacoes(ordemServicoRecordDto.observacoes())
-                .valorTotal(ordemServicoRecordDto.valorTotal())
-                .descricaoProblema(ordemServicoRecordDto.descricaoProblema())
-                .valorPecas(ordemServicoRecordDto.valorPecas())
+                .observacoes(ordemServicoDto.observacoes())
+                .valorTotal(ordemServicoDto.valorTotal())
+                .descricaoProblema(ordemServicoDto.descricaoProblema())
+                .valorPecas(ordemServicoDto.valorPecas())
                 .responsavel(funcionario0)
                 .pecasUtilizadas(pecas)
-                .status(StatusOrdemServico.valueOf(ordemServicoRecordDto.status()))
+                .status(StatusOrdem.valueOf(ordemServicoDto.status()))
                 .build()
-                .setDataAbertura(ordemServicoRecordDto.dataAbertura());
+                .setDataAbertura(ordemServicoDto.dataAbertura());
     }
 
     public ResponseEntity<List<OrdemServicoModel>> listarTodasAsOrdens() {
@@ -100,7 +99,7 @@ public class OrdemServicoService {
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizarOrdem(String codigoOrdem, OrdemServicoRecordDto ordemServicoRecordDto) {
+    public ResponseEntity<Object> atualizarOrdem(String codigoOrdem, OrdemServicoDto ordemServicoDto) {
         try {
             Optional<OrdemServicoModel> ordem0 = ordemServicoRepository.findByCodigoOrdem(codigoOrdem);
 
@@ -109,7 +108,7 @@ public class OrdemServicoService {
             }
 
             var ordemModel = ordem0.get();
-            BeanUtils.copyProperties(ordemServicoRecordDto, ordemModel);
+            BeanUtils.copyProperties(ordemServicoDto, ordemModel);
             return ResponseEntity.status(HttpStatus.OK).body(ordemServicoRepository.save(ordemModel));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

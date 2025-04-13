@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.controllers;
 
-import com.bytenest.InvetarioApi.dtos.UsuarioRecordDto;
+import com.bytenest.InvetarioApi.dtos.CriarUsuarioDto;
 import com.bytenest.InvetarioApi.models.UsuarioModel;
 import com.bytenest.InvetarioApi.repositories.UsuarioRepository;
 import com.bytenest.InvetarioApi.services.UsuarioService;
@@ -21,8 +21,8 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     @PostMapping("/usuarios")
-    public ResponseEntity<?> salvarUsuario(@RequestBody @Valid UsuarioRecordDto usuarioRecordDto) {
-        return usuarioService.salvarUsuario(usuarioRecordDto);
+    public ResponseEntity<?> salvarUsuario(@RequestBody @Valid CriarUsuarioDto criarUsuarioDto) {
+        return usuarioService.salvarUsuario(criarUsuarioDto);
     }
 
     @GetMapping("/usuarios")
@@ -37,8 +37,8 @@ public class UsuarioController {
 
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<Object> atualizarUsuario(@PathVariable (value = "id") Long id,
-                                                @RequestBody @Valid UsuarioRecordDto usuarioRecordDto) {
-        return usuarioService.atualizarUsuario(id, usuarioRecordDto);
+                                                @RequestBody @Valid CriarUsuarioDto criarUsuarioDto) {
+        return usuarioService.atualizarUsuario(id, criarUsuarioDto);
     }
 
     @DeleteMapping("/usuarios/{id}")

@@ -1,10 +1,9 @@
 package com.bytenest.InvetarioApi.models;
 
-import com.bytenest.InvetarioApi.enums.StatusOrdemServico;
+import com.bytenest.InvetarioApi.enums.StatusOrdem;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -41,7 +40,7 @@ public class OrdemServicoModel implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private StatusOrdemServico status;
+    private StatusOrdem status;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)

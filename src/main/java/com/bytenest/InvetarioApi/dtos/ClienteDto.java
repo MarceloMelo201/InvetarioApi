@@ -1,11 +1,11 @@
 package com.bytenest.InvetarioApi.dtos;
 
-import com.bytenest.InvetarioApi.enums.EstadoEnum;
+import com.bytenest.InvetarioApi.enums.EstadosUf;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record ClienteRecordDto(
+public record ClienteDto(
         @NotBlank
         String nomeCliente,
 
@@ -26,6 +26,6 @@ public record ClienteRecordDto(
         String rua,
 
         @NotNull
-        EstadoEnum uf
+        EstadosUf uf
 ) {
 }

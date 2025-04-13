@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.services;
 
-import com.bytenest.InvetarioApi.dtos.FuncionarioRecordDto;
+import com.bytenest.InvetarioApi.dtos.FuncionarioDto;
 import com.bytenest.InvetarioApi.models.FuncionarioModel;
 import com.bytenest.InvetarioApi.repositories.FuncionarioRepository;
 import jakarta.transaction.Transactional;
@@ -25,10 +25,10 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public ResponseEntity<?> salvarFuncionario(FuncionarioRecordDto funcionarioRecordDto){
+    public ResponseEntity<?> salvarFuncionario(FuncionarioDto funcionarioDto){
         try {
             var funcionarioModel = new FuncionarioModel();
-            BeanUtils.copyProperties(funcionarioRecordDto, funcionarioModel);
+            BeanUtils.copyProperties(funcionarioDto, funcionarioModel);
             return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioRepository.save(funcionarioModel));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -48,7 +48,7 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizarFuncionario(UUID id, FuncionarioRecordDto funcionarioRecordDto){
+    public ResponseEntity<Object> atualizarFuncionario(UUID id, FuncionarioDto funcionarioDto){
         try {
             Optional<FuncionarioModel> funcionario0 = funcionarioRepository.findById(id);
 
@@ -56,7 +56,7 @@ public class FuncionarioService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não encontrado.");
             }
             var funcionarioModel = funcionario0.get();
-            BeanUtils.copyProperties(funcionarioRecordDto, funcionarioModel);
+            BeanUtils.copyProperties(funcionarioDto, funcionarioModel);
             return ResponseEntity.status(HttpStatus.OK).body(funcionarioRepository.save(funcionarioModel));
 
         } catch (Exception e){

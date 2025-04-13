@@ -1,22 +1,24 @@
 package com.bytenest.InvetarioApi.dtos;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record UsuarioRecordDto(
+import java.math.BigDecimal;
 
+public record PecaDto(
         @NotBlank
-        String login,
-
-        @NotBlank
-        @Email
-        String email,
-
-        @NotBlank
-        String senha,
+        String nome,
 
         @NotNull
-        Boolean estaAtivo
+        BigDecimal valor,
+
+        @NotBlank
+        String sku,
+
+        @NotBlank
+        String descricao,
+
+        @NotNull
+        Integer quantidadeTotal
 ) {
 }

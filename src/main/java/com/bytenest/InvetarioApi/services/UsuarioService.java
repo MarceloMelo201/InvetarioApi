@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.services;
 
-import com.bytenest.InvetarioApi.dtos.UsuarioRecordDto;
+import com.bytenest.InvetarioApi.dtos.CriarUsuarioDto;
 import com.bytenest.InvetarioApi.models.UsuarioModel;
 import com.bytenest.InvetarioApi.repositories.UsuarioRepository;
 import jakarta.transaction.Transactional;
@@ -24,10 +24,10 @@ public class UsuarioService {
     }
 
     @Transactional
-    public ResponseEntity<?> salvarUsuario(UsuarioRecordDto usuarioRecordDto){
+    public ResponseEntity<?> salvarUsuario(CriarUsuarioDto criarUsuarioDto){
         try {
-            var usuarioModel = new UsuarioModel();
-            BeanUtils.copyProperties(usuarioRecordDto, usuarioModel);
+            UsuarioModel usuarioModel = new UsuarioModel();
+
             return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(usuarioModel));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -47,7 +47,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizarUsuario(Long id, UsuarioRecordDto usuarioRecordDto){
+    public ResponseEntity<Object> atualizarUsuario(Long id, CriarUsuarioDto criarUsuarioDto){
         try {
             Optional<UsuarioModel> usuario0 = usuarioRepository.findById(id);
 
@@ -55,7 +55,7 @@ public class UsuarioService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario não encontrado.");
             }
             var usuarioModel = usuario0.get();
-            BeanUtils.copyProperties(usuarioRecordDto, usuarioModel);
+            BeanUtils.copyProperties(criarUsuarioDto, usuarioModel);
             return ResponseEntity.status(HttpStatus.OK).body(usuarioRepository.save(usuarioModel));
 
         } catch (Exception e){

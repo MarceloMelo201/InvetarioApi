@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 
-public record EntradaRecordDto(
+public record EntradaDto(
 
         @NotNull
         Integer quantidade,

@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.enums;
 
-public enum EstadoEnum {
+public enum EstadosUf {
     AC, AL, AP,
     AM, BA, CE,
     DF, ES, GO,

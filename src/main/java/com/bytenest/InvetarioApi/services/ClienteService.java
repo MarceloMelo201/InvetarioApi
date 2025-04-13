@@ -1,8 +1,6 @@
 package com.bytenest.InvetarioApi.services;
 
-import com.bytenest.InvetarioApi.dtos.ClienteRecordDto;
-import com.bytenest.InvetarioApi.dtos.ClienteRecordDto;
-import com.bytenest.InvetarioApi.models.ClienteModel;
+import com.bytenest.InvetarioApi.dtos.ClienteDto;
 import com.bytenest.InvetarioApi.models.ClienteModel;
 import com.bytenest.InvetarioApi.repositories.ClienteRepository;
 import jakarta.transaction.Transactional;
@@ -27,10 +25,10 @@ public class ClienteService {
     }
 
     @Transactional
-    public ResponseEntity<?> salvarCliente(ClienteRecordDto clienteRecordDto){
+    public ResponseEntity<?> salvarCliente(ClienteDto clienteDto){
         try {
             var clienteModel = new ClienteModel();
-            BeanUtils.copyProperties(clienteRecordDto, clienteModel);
+            BeanUtils.copyProperties(clienteDto, clienteModel);
             return ResponseEntity.status(HttpStatus.CREATED).body(clienteRepository.save(clienteModel));
         } catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -50,7 +48,7 @@ public class ClienteService {
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizarCliente(UUID id, ClienteRecordDto clienteRecordDto){
+    public ResponseEntity<Object> atualizarCliente(UUID id, ClienteDto clienteDto){
         try {
             Optional<ClienteModel> cliente0 = clienteRepository.findById(id);
 
@@ -58,7 +56,7 @@ public class ClienteService {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Funcionário não encontrado.");
             }
             var clienteModel = cliente0.get();
-            BeanUtils.copyProperties(clienteRecordDto, clienteModel);
+            BeanUtils.copyProperties(clienteDto, clienteModel);
             return ResponseEntity.status(HttpStatus.OK).body(clienteRepository.save(clienteModel));
 
         } catch (Exception e){

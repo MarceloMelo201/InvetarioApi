@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.controllers;
 
-import com.bytenest.InvetarioApi.dtos.OrdemServicoRecordDto;
+import com.bytenest.InvetarioApi.dtos.OrdemServicoDto;
 import com.bytenest.InvetarioApi.services.OrdemServicoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ public class OrdemServicoController {
     }
 
     @PostMapping
-    public ResponseEntity<?> criarOrdem(@RequestBody OrdemServicoRecordDto ordemServicoRecordDto) {
-        return ordemServicoService.salvarOrdem(ordemServicoRecordDto);
+    public ResponseEntity<?> criarOrdem(@RequestBody OrdemServicoDto ordemServicoDto) {
+        return ordemServicoService.salvarOrdem(ordemServicoDto);
     }
 
     @GetMapping
@@ -33,8 +33,8 @@ public class OrdemServicoController {
     }
 
     @PutMapping("/{codigoOrdem}")
-    public ResponseEntity<?> atualizarOrdem(@PathVariable String codigoOrdem, @RequestBody OrdemServicoRecordDto ordemServicoRecordDto) {
-        return ordemServicoService.atualizarOrdem(codigoOrdem, ordemServicoRecordDto);
+    public ResponseEntity<?> atualizarOrdem(@PathVariable String codigoOrdem, @RequestBody OrdemServicoDto ordemServicoDto) {
+        return ordemServicoService.atualizarOrdem(codigoOrdem, ordemServicoDto);
     }
 
     @DeleteMapping("/{codigoOrdem}")

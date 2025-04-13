@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.controllers;
 
-import com.bytenest.InvetarioApi.dtos.FuncionarioRecordDto;
+import com.bytenest.InvetarioApi.dtos.FuncionarioDto;
 import com.bytenest.InvetarioApi.models.FuncionarioModel;
 import com.bytenest.InvetarioApi.repositories.FuncionarioRepository;
 import com.bytenest.InvetarioApi.services.FuncionarioService;
@@ -22,8 +22,8 @@ public class FuncionarioController {
     FuncionarioService funcionarioService;
 
     @PostMapping("/funcionarios")
-    public ResponseEntity<?> salvarFuncionario(@RequestBody @Valid FuncionarioRecordDto funcionarioRecordDto) {
-        return funcionarioService.salvarFuncionario(funcionarioRecordDto);
+    public ResponseEntity<?> salvarFuncionario(@RequestBody @Valid FuncionarioDto funcionarioDto) {
+        return funcionarioService.salvarFuncionario(funcionarioDto);
     }
 
     @GetMapping("/funcionarios")
@@ -38,8 +38,8 @@ public class FuncionarioController {
 
     @PutMapping("/funcionarios/{id}")
     public ResponseEntity<Object> atualizarFuncionario(@PathVariable (value = "id") UUID id,
-                                                   @RequestBody @Valid FuncionarioRecordDto funcionarioRecordDto) {
-        return funcionarioService.atualizarFuncionario(id, funcionarioRecordDto);
+                                                   @RequestBody @Valid FuncionarioDto funcionarioDto) {
+        return funcionarioService.atualizarFuncionario(id, funcionarioDto);
     }
 
     @DeleteMapping("/funcionarios/{id}")

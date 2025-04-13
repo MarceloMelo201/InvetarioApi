@@ -1,6 +1,6 @@
 package com.bytenest.InvetarioApi.models;
 
-import com.bytenest.InvetarioApi.enums.EstadoEnum;
+import com.bytenest.InvetarioApi.enums.EstadosUf;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -38,7 +38,7 @@ public class ClienteModel implements Serializable {
     private String rua;
 
     @Enumerated(EnumType.STRING)
-    private EstadoEnum uf;
+    private EstadosUf uf;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

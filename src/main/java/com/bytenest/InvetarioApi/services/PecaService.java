@@ -1,7 +1,7 @@
 package com.bytenest.InvetarioApi.services;
 
-import com.bytenest.InvetarioApi.dtos.EntradaRecordDto;
-import com.bytenest.InvetarioApi.dtos.PecaRecordDto;
+import com.bytenest.InvetarioApi.dtos.EntradaDto;
+import com.bytenest.InvetarioApi.dtos.PecaDto;
 import com.bytenest.InvetarioApi.models.EntradaEstoqueModel;
 import com.bytenest.InvetarioApi.models.PecaModel;
 import com.bytenest.InvetarioApi.repositories.EntradaRepository;
@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,12 +32,12 @@ public class PecaService {
     }
 
     @Transactional
-    public ResponseEntity<?> salvarPeca(PecaRecordDto pecaRecordDto, EntradaRecordDto entradaRecordDto){
+    public ResponseEntity<?> salvarPeca(PecaDto pecaDto, EntradaDto entradaDto){
         try {
             var pecaModel = new PecaModel();
-            BeanUtils.copyProperties(pecaRecordDto, pecaModel);
+            BeanUtils.copyProperties(pecaDto, pecaModel);
 
-            EntradaEstoqueModel entrada = getEstoqueModel(entradaRecordDto, pecaModel);
+            EntradaEstoqueModel entrada = getEstoqueModel(entradaDto, pecaModel);
 
             pecaModel.getEntradas().add(entrada);
 
@@ -52,15 +51,15 @@ public class PecaService {
         }
     }
 
-    private EntradaEstoqueModel getEstoqueModel(EntradaRecordDto entradaRecordDto, PecaModel pecaModel) {
+    private EntradaEstoqueModel getEstoqueModel(EntradaDto entradaDto, PecaModel pecaModel) {
         EntradaEstoqueModel entrada = EntradaEstoqueModel.builder()
                 .dataEntrada(LocalDateTime.now())
                 .produto(pecaModel)
-                .quantidade(entradaRecordDto.quantidade())
-                .valorUnitario(entradaRecordDto.valorUnitario())
-                .valorTotal(entradaRecordDto.valorTotal())
-                .notaFiscal(entradaRecordDto.notaFiscal())
-                .observacoes(entradaRecordDto.observacoes())
+                .quantidade(entradaDto.quantidade())
+                .valorUnitario(entradaDto.valorUnitario())
+                .valorTotal(entradaDto.valorTotal())
+                .notaFiscal(entradaDto.notaFiscal())
+                .observacoes(entradaDto.observacoes())
                 .build();
         return entrada;
     }
@@ -83,7 +82,7 @@ public class PecaService {
     }
 
     @Transactional
-    public ResponseEntity<Object> atualizarPeca(UUID id, PecaRecordDto pecaRecordDto, EntradaRecordDto entradaRecordDto){
+    public ResponseEntity<Object> atualizarPeca(UUID id, PecaDto pecaDto, EntradaDto entradaDto){
         try {
             Optional<PecaModel> peca0 = pecaRepository.findById(id);
 
@@ -92,12 +91,12 @@ public class PecaService {
             }
             var pecaModel = peca0.get();
 
-            EntradaEstoqueModel entrada = getEstoqueModel(entradaRecordDto, pecaModel);
+            EntradaEstoqueModel entrada = getEstoqueModel(entradaDto, pecaModel);
 
-            pecaModel.setNome(pecaRecordDto.nome());
-            pecaModel.setValor(pecaRecordDto.valor());
-            pecaModel.setSku(pecaRecordDto.sku());
-            pecaModel.setDescricao(pecaRecordDto.descricao());
+            pecaModel.setNome(pecaDto.nome());
+            pecaModel.setValor(pecaDto.valor());
+            pecaModel.setSku(pecaDto.sku());
+            pecaModel.setDescricao(pecaDto.descricao());
             pecaModel.setQuantidadeTotal(pecaModel.getQuantidadeTotal() + entrada.getQuantidade());
 
             pecaModel.getEntradas().add(entrada);
